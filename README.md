@@ -6,11 +6,13 @@ A modern touchscreen interface for MaxDuino running on Arduino Mega, replacing p
 
 ## 🧱 Hardware Requirements
 
-- **Microcontroller**: Arduino Mega 2560
-- **Display**: ILI9341 TFT (240×320 or 320×240)
-- **Touchscreen**: XPT2046 (SPI interface)
-- **SD Card**: FAT32 formatted, contains tape files and `logo.bmp`
-- **Audio Output**: Digital pin (e.g. D9) for tape signal
+| Component                  | Description                                      |
+|---------------------------|--------------------------------------------------|
+| Arduino Mega 2560         | Main MCU with enough flash and RAM               |
+| ILI9341 TFT (240×320)     | SPI-based display                                |
+| FT6206 Capacitive Touch   | I2C-based touch controller                       |
+| SD Card Module            | SPI-based, or integrated with TFT                |
+| Audio Output              | Digital pin (e.g. D9) for tape signal            |
 
 ---
 
