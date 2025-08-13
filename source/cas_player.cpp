@@ -17,3 +17,14 @@ void playCAS(File &file) {
 
     delay(1000); // Final pause
 }
+
+void sendBit(bool bit) {
+#if ENABLE_CALIBRATION
+    digitalWrite(DATA_PIN, bit ? HIGH : LOW);
+    delayMicroseconds(PULSE_WIDTH_US);
+    digitalWrite(DATA_PIN, LOW);
+    delayMicroseconds(INTER_BIT_DELAY_US);
+#else
+    // CAS-specific logic
+#endif
+}
