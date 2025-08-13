@@ -66,14 +66,23 @@ void drawFileList() {
 void drawButtons() {
   int y = SCREEN_HEIGHT - BUTTON_HEIGHT;
   tft.fillRect(0, y, SCREEN_WIDTH, BUTTON_HEIGHT, ILI9341_BLUE);
-  tft.setTextSize(2);
-  tft.setTextColor(ILI9341_WHITE);
 
-  tft.setCursor(10, y + 10);   tft.print("Prev");
-  tft.setCursor(70, y + 10);   tft.print("Play");
-  tft.setCursor(130, y + 10);  tft.print("Stop");
-  tft.setCursor(190, y + 10);  tft.print("Next");
-  tft.setCursor(250, y + 10);  tft.print("Menu");
+  // Prev ◀
+  tft.fillTriangle(20, y + 10, 20, y + 30, 10, y + 20, ILI9341_WHITE);
+
+  // Play ►
+  tft.fillTriangle(80, y + 10, 80, y + 30, 95, y + 20, ILI9341_WHITE);
+
+  // Stop ■
+  tft.fillRect(140, y + 15, 20, 20, ILI9341_WHITE);
+
+  // Next ▶
+  tft.fillTriangle(200, y + 10, 200, y + 30, 215, y + 20, ILI9341_WHITE);
+
+  // Menu ≡
+  tft.fillRect(260, y + 15, 30, 3, ILI9341_WHITE);
+  tft.fillRect(260, y + 22, 30, 3, ILI9341_WHITE);
+  tft.fillRect(260, y + 29, 30, 3, ILI9341_WHITE);
 }
 
 TouchAction detectTouchAction() {
