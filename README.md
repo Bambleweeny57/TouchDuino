@@ -69,17 +69,6 @@ Pull requests welcome! Please follow modular coding practices and ensure compati
 
 ---
 
-## 📸 Screenshots & Diagrams
-
-Coming soon: wiring diagrams, UI screenshots, and banner/logo previews.
-
-
-# 🎮 MaxDuino Touchscreen UI
-
-A modern touchscreen interface for MaxDuino running on Arduino Mega, replacing physical buttons with a full-colour TFT and touch input. Includes a scrollable file browser, playback progress bar, and customizable banner image.
-
----
-
 ## 🧱 Hardware Requirements
 
 | Component                  | Description                                      |
@@ -163,3 +152,9 @@ A modern touchscreen interface for MaxDuino running on Arduino Mega, replacing p
 - Swap `logo.bmp` for different branding
 - Add icons or animations to buttons
 - Extend Menu button for settings or diagnostics
+
+## 📸 Screenshots & Diagrams
+
+Coming soon: wiring diagrams, UI screenshots, and banner/logo previews.
+
+---
