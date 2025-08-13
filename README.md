@@ -12,6 +12,7 @@ TouchDuino is a robust, modular tape emulator designed for retro computing platf
 - 🧠 **Modular architecture**: Clean `.cpp/.h` separation for maintainability and format extensibility
 - 🔊 **Signal generation**: Accurate bit-level playback with timing control
 - 🛠️ **Hardware-ready**: Designed for Arduino-compatible boards with reliable pinouts
+- 🎞️ Customizable banner via `logo.bmp` in SD root
 
 ---
 
@@ -53,41 +54,6 @@ TouchDuino includes a recursive file browser that:
 
 ---
 
-## 🧪 Status
-
-✅ All playback engines implemented  
-✅ Folder-aware browser and UI integrated  
-✅ Modular format routing via dispatcher  
-🔜 Banner/logo rendering polish  
-🔜 Optional progress bar and signal calibration
-
----
-
-## 🤝 Contributing
-
-Pull requests welcome! Please follow modular coding practices and ensure compatibility with the existing UI and hardware abstraction layers.
-
----
-
-## 🧱 Hardware Requirements
-
-| Component                  | Description                                      |
-|---------------------------|--------------------------------------------------|
-| Arduino Mega 2560         | Main MCU with enough flash and RAM               |
-| ILI9341 TFT (240×320)     | SPI-based display                                |
-| FT6206 Capacitive Touch   | I2C-based touch controller                       |
-| SD Card Module            | SPI-based, or integrated with TFT                |
-| Audio Output              | Digital pin (e.g. D9) for tape signal            |
-
----
-
-## 📦 Firmware Base
-
-- **MaxDuino**: Latest version from [rcmolina/MaxDuino](https://github.com/rcmolina/MaxDuino)
-- Supports `.tap`, `.tzx`, `.cdt`, `.cas`, and other formats
-
----
-
 ### 🖥️ UI Layout
 
 | Section                  | Description                          |
@@ -96,18 +62,6 @@ Pull requests welcome! Please follow modular coding practices and ensure compati
 | **Playback Progress Bar**| Green bar shows file progress        |
 | **Scrollable File List** | Touch to select/play                 |
 | **Control Buttons**      | ⏮ Prev ▶ Play ⏹ Stop ⏭ Next ☰ Menu   |
-
----
-
-## 🧩 Features
-
-- ✅ Full MaxDuino playback engine
-- ✅ Touchscreen replaces 5 physical buttons
-- ✅ Scrollable file list (excludes `logo.bmp`)
-- ✅ Playback progress bar
-- ✅ Cancel playback via Stop button
-- ✅ Modular code structure (`tft_ui.cpp/h`)
-- ✅ Customizable banner via `logo.bmp` in SD root
 
 ---
 
@@ -147,6 +101,18 @@ Pull requests welcome! Please follow modular coding practices and ensure compati
 
 ---
 
+## 🧱 Hardware Requirements
+
+| Component                  | Description                                      |
+|---------------------------|--------------------------------------------------|
+| Arduino Mega 2560         | Main MCU with enough flash and RAM               |
+| ILI9341 TFT (240×320)     | SPI-based display                                |
+| FT6206 Capacitive Touch   | I2C-based touch controller                       |
+| SD Card Module            | SPI-based, or integrated with TFT                |
+| Audio Output              | Digital pin (e.g. D9) for tape signal            |
+
+---
+
 ## 🧠 Customization Ideas
 
 - Swap `logo.bmp` for different branding
@@ -156,5 +122,27 @@ Pull requests welcome! Please follow modular coding practices and ensure compati
 ## 📸 Screenshots & Diagrams
 
 Coming soon: wiring diagrams, UI screenshots, and banner/logo previews.
+
+---
+## 🧪 Status
+
+✅ All playback engines implemented  
+✅ Folder-aware browser and UI integrated  
+✅ Modular format routing via dispatcher  
+🔜 Banner/logo rendering polish  
+🔜 Optional progress bar and signal calibration
+
+---
+
+## 🤝 Contributing
+
+Pull requests welcome! Please follow modular coding practices and ensure compatibility with the existing UI and hardware abstraction layers.
+
+---
+
+## 📦 Firmware Base
+
+- **MaxDuino**: Latest version from [rcmolina/MaxDuino](https://github.com/rcmolina/MaxDuino)
+- Supports `.tap`, `.tzx`, `.cdt`, `.cas`, and other formats
 
 ---
