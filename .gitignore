@@ -1,41 +1,35 @@
-# Prerequisites
-*.d
-
-# Compiled Object files
-*.slo
-*.lo
+# Arduino build files
+*.hex
+*.elf
+*.eep
+*.map
+*.sym
+*.lss
 *.o
-*.obj
+*.bin
 
-# Precompiled Headers
-*.gch
-*.pch
+# Backup and temporary files
+*.bak
+*.tmp
+*.swp
+*.swo
 
-# Linker files
-*.ilk
+# IDE-specific folders
+.vscode/
+.idea/
+*.iml
 
-# Debugger Files
-*.pdb
+# Arduino Studio / Visual Micro
+__vm/
+*.vcxproj*
+*.sln
+*.filters
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
+# OS-specific
+.DS_Store
+Thumbs.db
 
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
-
-# debug information files
-*.dwo
+# Build output folders
+build/
+Release/
+Debug/
