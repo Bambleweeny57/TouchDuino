@@ -142,3 +142,10 @@ void listTapeFiles() {
   listTapeFilesRecursive(root);
   drawFileList();
 }
+
+String loadFileFromList() {
+  if (selectedFile >= 0 && selectedFile < fileCount) {
+    return fileList[selectedFile];
+  }
+  return "";
+}
