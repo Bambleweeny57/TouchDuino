@@ -1,14 +1,16 @@
 #include <SPI.h>
 #include <SD.h>
 #include "tft_ui.h"
+#include "userconfig.h"
 
 // Touchscreen CS pin
 #define CS_PIN 8
 
 // Playback control
 bool isPlaying = false;
+File currentFile;
 unsigned long playbackStart = 0;
-unsigned long playbackDuration = 0;
+unsigned long playbackSize = 0;
 
 // Audio output pin
 #define AUDIO_PIN 9
@@ -25,6 +27,7 @@ void setup() {
   initUI();
   listTapeFiles();
 }
+
 void listTapeFiles() {
   File root = SD.open("/");
   fileCount = 0;
@@ -47,33 +50,36 @@ void listTapeFiles() {
 
   drawFileList();
 }
-void startPlayback(String filename) {
-  File tape = SD.open(filename);
-  if (!tape) return;
+
+void playFile(String filename) {
+  currentFile = SD.open(filename);
+  if (!currentFile) {
+    Serial.println("Failed to open file: " + filename);
+    return;
+  }
 
   isPlaying = true;
   playbackStart = millis();
-  playbackDuration = tape.size(); // Simplified for progress bar
+  playbackSize = currentFile.size();
 
-  // TODO: Replace with actual MaxDuino playback logic
-  while (tape.available()) {
-    byte b = tape.read();
-    analogWrite(AUDIO_PIN, b); // Simulated output
+  while (currentFile.available()) {
+    byte b = currentFile.read();
+    analogWrite(AUDIO_PIN, b); // Replace with MaxDuino signal logic
     delayMicroseconds(100);    // Adjust timing as needed
 
-    float progress = (float)(tape.position()) / playbackDuration;
+    float progress = (float)(currentFile.position()) / playbackSize;
     drawProgressBar(progress);
 
     TouchAction action = detectTouchAction();
     if (action == TOUCH_STOP) {
-      tape.close();
+      currentFile.close();
       isPlaying = false;
       drawProgressBar(0);
       return;
     }
   }
 
-  tape.close();
+  currentFile.close();
   isPlaying = false;
   drawProgressBar(1);
 }
@@ -89,7 +95,7 @@ void loop() {
         scrollFileList(1);
         break;
       case TOUCH_PLAY:
-        startPlayback(fileList[selectedFile]);
+        playFile(fileList[selectedFile]);
         break;
       case TOUCH_MENU:
         // Future config screen
