@@ -1,5 +1,6 @@
 #include "tzx_player.h"
 #include "signal_generator.h"  // Assumes sendBit(), tone(), etc.
+#include "tft_ui.h"
 
 void playTZX(File &file) {
     while (file.available()) {
