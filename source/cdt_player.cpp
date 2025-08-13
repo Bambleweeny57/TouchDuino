@@ -16,6 +16,10 @@ void playCDT(File &file) {
 
             case 0x01: { // Data block
                 uint16_t dataLen = file.read() | (file.read() << 8);
+                uint32_t currentPos = file.position();
+                uint32_t totalSize = file.size();
+                drawProgressBar(currentPos, totalSize);
+
                 for (uint16_t i = 0; i < dataLen; i++) {
                     uint8_t byte = file.read();
                     for (int b = 7; b >= 0; b--) {
