@@ -4,7 +4,10 @@
 void playCDT(File &file) {
     while (file.available()) {
         uint8_t blockID = file.read();
-
+        uint32_t currentPos = file.position();
+        uint32_t totalSize = file.size();
+        drawProgressBar(currentPos, totalSize);
+        
         switch (blockID) {
             case 0x00: { // Header block
                 file.seek(file.position() + 0x10); // Skip header
