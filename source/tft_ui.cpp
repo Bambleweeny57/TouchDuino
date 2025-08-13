@@ -61,10 +61,19 @@ void drawBanner() {
   bmpFile.close();
 }
 
-void drawProgressBar(float progress) {
-  int barWidth = (int)(progress * SCREEN_WIDTH);
-  tft.fillRect(0, 64, SCREEN_WIDTH, 10, ILI9341_DARKGREY);
-  tft.fillRect(0, 64, barWidth, 10, ILI9341_GREEN);
+void drawProgressBar(uint32_t current, uint32_t total) {
+    int barWidth = 200;  // pixels
+    int barHeight = 10;
+    int x = 60;          // position on screen
+    int y = 220;
+
+    float progress = (float)current / total;
+    int filled = (int)(barWidth * progress);
+
+    // Draw background
+    tft.fillRect(x, y, barWidth, barHeight, TFT_DARKGREY);
+    // Draw filled portion
+    tft.fillRect(x, y, filled, barHeight, TFT_GREEN);
 }
 
 void drawFileList() {
