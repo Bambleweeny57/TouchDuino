@@ -13,13 +13,11 @@ extern Adafruit_ILI9341 tft;
 extern XPT2046_Touchscreen touch;
 
 // UI constants
-#define SCREEN_WIDTH  320
+#define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 240
-
 #define BUTTON_HEIGHT 40
 #define PROGRESS_HEIGHT 8
 #define BANNER_HEIGHT 64
-
 #define FILE_LIST_Y (BANNER_HEIGHT + PROGRESS_HEIGHT)
 #define FILE_LIST_HEIGHT (SCREEN_HEIGHT - FILE_LIST_Y - BUTTON_HEIGHT)
 
@@ -41,7 +39,8 @@ void drawFileList();
 void drawButtons();
 TouchAction detectTouchAction();
 void scrollFileList(int direction);
-void loadFileFromList(int index);
-void refreshUI();
+void listTapeFiles();                      
+void listTapeFilesRecursive(File dir, String pathPrefix = "");
+String loadFileFromList(); // ✅ Reintroduced for modular file access
 
 #endif
