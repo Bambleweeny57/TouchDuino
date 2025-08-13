@@ -1,3 +1,79 @@
+# 🎛️ TouchDuino: Modular Tape Emulator for Retro Systems
+
+TouchDuino is a robust, modular tape emulator designed for retro computing platforms like ZX Spectrum, Amstrad CPC, and MSX. It supports multiple tape formats and integrates a folder-aware file browser, capacitive touchscreen UI, and banner/logo rendering.
+
+---
+
+## 🚀 Features
+
+- 🎞️ **Multi-format playback**: Supports `.tap`, `.tzx`, `.cdt`, `.cas`, and `.tsx` formats
+- 📁 **Folder-aware file browser**: Navigate SD card directories with recursive listing and file selection
+- 🖼️ **Touchscreen UI**: Capacitive display with banner/logo rendering and file selection interface
+- 🧠 **Modular architecture**: Clean `.cpp/.h` separation for maintainability and format extensibility
+- 🔊 **Signal generation**: Accurate bit-level playback with timing control
+- 🛠️ **Hardware-ready**: Designed for Arduino-compatible boards with reliable pinouts
+
+---
+
+## 📂 Source Modules
+
+| Module                | Purpose                              |
+|-----------------------|--------------------------------------|
+| `maxduino.cpp`        | Main playback controller             |
+| `format_dispatcher.cpp` | Routes playback based on file extension |
+| `tzx_player.cpp`      | TZX format playback engine           |
+| `tap_player.cpp`      | TAP format playback engine           |
+| `cdt_player.cpp`      | CDT format playback engine           |
+| `cas_player.cpp`      | CAS format playback engine           |
+| `tsx_player.cpp`      | TSX format playback engine           |
+| `file_browser.cpp`    | Recursive SD file listing and selection UI |
+| `tft_ui.cpp`          | Touchscreen UI rendering and input   |
+| `userconfig.h`        | Customization and pin definitions    |
+
+---
+
+## 📁 SD File Browser
+
+TouchDuino includes a recursive file browser that:
+
+- Lists all files and folders on the SD card
+- Supports nested directories
+- Filters supported tape formats (`.tap`, `.tzx`, etc.)
+- Allows selection via touchscreen
+- Passes selected file to `dispatchPlayback()` for format-specific handling
+
+---
+
+## 🧰 Hardware Requirements
+
+- Arduino-compatible board (e.g. Mega, ESP32)
+- Capacitive touchscreen (e.g. ILI9341)
+- SD card reader (SPI-based)
+- Audio output circuitry (PWM or DAC-based)
+
+---
+
+## 🧪 Status
+
+✅ All playback engines implemented  
+✅ Folder-aware browser and UI integrated  
+✅ Modular format routing via dispatcher  
+🔜 Banner/logo rendering polish  
+🔜 Optional progress bar and signal calibration
+
+---
+
+## 🤝 Contributing
+
+Pull requests welcome! Please follow modular coding practices and ensure compatibility with the existing UI and hardware abstraction layers.
+
+---
+
+## 📸 Screenshots & Diagrams
+
+Coming soon: wiring diagrams, UI screenshots, and banner/logo previews.
+
+
 # 🎮 MaxDuino Touchscreen UI
 
 A modern touchscreen interface for MaxDuino running on Arduino Mega, replacing physical buttons with a full-colour TFT and touch input. Includes a scrollable file browser, playback progress bar, and customizable banner image.
