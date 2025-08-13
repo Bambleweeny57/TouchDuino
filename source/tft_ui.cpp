@@ -1,65 +1,75 @@
+#include <Adafruit_GFX.h>
+#include <Adafruit_ILI9341.h>
+#include <XPT2046_Touchscreen.h>
+#include <SPI.h>
+#include <SD.h>
 #include "tft_ui.h"
+#include "userconfig.h"
 
-// TFT and touchscreen objects
-Adafruit_ILI9341 tft = Adafruit_ILI9341(10, 9); // CS, DC
-XPT2046_Touchscreen touch(CS_PIN);              // Define CS_PIN in your main sketch
+#define TFT_CS   10
+#define TFT_DC    9
+#define TFT_RST   7
+#define TOUCH_CS  8
 
-// File list
-#define MAX_FILES 50
+Adafruit_ILI9341 tft(TFT_CS, TFT_DC, TFT_RST);
+XPT2046_Touchscreen touch(TOUCH_CS);
+
 String fileList[MAX_FILES];
 int fileCount = 0;
 int selectedFile = 0;
-int scrollOffset = 0;
 
 void initUI() {
   tft.begin();
-  tft.setRotation(1); // Landscape
+  touch.begin();
+  touch.setRotation(1);
+  tft.setRotation(1);
   tft.fillScreen(ILI9341_BLACK);
   drawBanner();
-  drawProgressBar(0);
-  drawFileList();
   drawButtons();
 }
 
 void drawBanner() {
-  File bmpFile = SD.open("/logo.bmp");
+  File bmpFile = SD.open("logo.bmp");
   if (!bmpFile) return;
 
-  // Simple BMP loader (24-bit, no compression)
-  uint16_t x = 0, y = 0;
+  int x = 0, y = 0;
   bmpFile.seek(54); // Skip BMP header
-  for (y = 0; y < BANNER_HEIGHT; y++) {
-    for (x = 0; x < SCREEN_WIDTH; x++) {
-      uint8_t b = bmpFile.read();
-      uint8_t g = bmpFile.read();
-      uint8_t r = bmpFile.read();
+  for (int row = 0; row < 64; row++) {
+    for (int col = 0; col < 320; col++) {
+      byte b = bmpFile.read();
+      byte g = bmpFile.read();
+      byte r = bmpFile.read();
       uint16_t color = tft.color565(r, g, b);
-      tft.drawPixel(x, y, color);
+      tft.drawPixel(x + col, y + row, color);
     }
   }
   bmpFile.close();
 }
 
 void drawProgressBar(float progress) {
-  int barWidth = SCREEN_WIDTH * progress;
-  tft.fillRect(0, BANNER_HEIGHT, SCREEN_WIDTH, PROGRESS_HEIGHT, ILI9341_DARKGREY);
-  tft.fillRect(0, BANNER_HEIGHT, barWidth, PROGRESS_HEIGHT, ILI9341_GREEN);
+  int barWidth = (int)(progress * SCREEN_WIDTH);
+  tft.fillRect(0, 64, SCREEN_WIDTH, 10, ILI9341_DARKGREY);
+  tft.fillRect(0, 64, barWidth, 10, ILI9341_GREEN);
 }
 
 void drawFileList() {
-  tft.fillRect(0, FILE_LIST_Y, SCREEN_WIDTH, FILE_LIST_HEIGHT, ILI9341_BLACK);
-  tft.setTextSize(2);
+  tft.fillRect(0, 74, SCREEN_WIDTH, SCREEN_HEIGHT - 74 - BUTTON_HEIGHT, ILI9341_BLACK);
   tft.setTextColor(ILI9341_WHITE);
-  tft.setCursor(0, FILE_LIST_Y);
+  tft.setTextSize(2);
 
-  for (int i = 0; i < 5 && (i + scrollOffset) < fileCount; i++) {
-    if ((i + scrollOffset) == selectedFile) {
+  int start = max(0, selectedFile - 2);
+  int end = min(fileCount, start + 5);
+
+  for (int i = start; i < end; i++) {
+    int y = 74 + (i - start) * 24;
+    if (i == selectedFile) {
+      tft.fillRect(0, y, SCREEN_WIDTH, 24, ILI9341_BLUE);
       tft.setTextColor(ILI9341_YELLOW);
     } else {
       tft.setTextColor(ILI9341_WHITE);
     }
-    tft.setCursor(10, FILE_LIST_Y + i * 20);
-    tft.print(fileList[i + scrollOffset]);
+    tft.setCursor(5, y + 4);
+    tft.print(fileList[i]);
   }
 }
 
@@ -88,34 +98,47 @@ void drawButtons() {
 TouchAction detectTouchAction() {
   if (!touch.touched()) return TOUCH_NONE;
   TS_Point p = touch.getPoint();
-  int x = map(p.x, 200, 3800, 0, SCREEN_WIDTH); // Calibrate as needed
-  int y = map(p.y, 200, 3800, 0, SCREEN_HEIGHT);
+  int x = map(p.x, 200, 3800, 0, SCREEN_WIDTH);
 
-  if (y > SCREEN_HEIGHT - BUTTON_HEIGHT) {
-    if (x < 64) return TOUCH_PREV;
-    else if (x < 128) return TOUCH_PLAY;
-    else if (x < 192) return TOUCH_STOP;
-    else if (x < 256) return TOUCH_NEXT;
-    else return TOUCH_MENU;
-  }
-  return TOUCH_NONE;
+  if (x < 64) return TOUCH_PREV;
+  if (x < 128) return TOUCH_PLAY;
+  if (x < 192) return TOUCH_STOP;
+  if (x < 256) return TOUCH_NEXT;
+  return TOUCH_MENU;
 }
 
 void scrollFileList(int direction) {
-  scrollOffset += direction;
-  if (scrollOffset < 0) scrollOffset = 0;
-  if (scrollOffset > fileCount - 5) scrollOffset = fileCount - 5;
+  selectedFile += direction;
+  if (selectedFile < 0) selectedFile = 0;
+  if (selectedFile >= fileCount) selectedFile = fileCount - 1;
   drawFileList();
 }
 
-void loadFileFromList(int index) {
-  selectedFile = index;
-  drawFileList();
-  // Trigger MaxDuino playback logic here
+void listTapeFilesRecursive(File dir, String pathPrefix = "") {
+  while (true) {
+    File entry = dir.openNextFile();
+    if (!entry) break;
+
+    String name = entry.name();
+    name.toLowerCase();
+
+    if (entry.isDirectory()) {
+      listTapeFilesRecursive(entry, pathPrefix + name + "/");
+    } else {
+      if (name != "logo.bmp" && (name.endsWith(".tap") || name.endsWith(".tzx") ||
+          name.endsWith(".cdt") || name.endsWith(".cas"))) {
+        if (fileCount < MAX_FILES) {
+          fileList[fileCount++] = pathPrefix + name;
+        }
+      }
+    }
+    entry.close();
+  }
 }
 
-void refreshUI() {
-  drawProgressBar(0);
+void listTapeFiles() {
+  fileCount = 0;
+  File root = SD.open("/");
+  listTapeFilesRecursive(root);
   drawFileList();
-  drawButtons();
 }
