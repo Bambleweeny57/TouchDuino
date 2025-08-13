@@ -21,9 +21,14 @@ A modern touchscreen interface for MaxDuino running on Arduino Mega, replacing p
 
 ---
 
-## 🖥️ UI Layout
+### 🖥️ UI Layout
 
-─────────────────┐ │ Full-width Banner │ ← logo.bmp loaded from SD ├────────────────────────────────────────────┤ │ Playback Progress Bar │ ← Green bar shows file progress ├────────────────────────────────────────────┤ │ Scrollable File List │ ← Touch to select/play ├────────────────────────────────────────────┤ │ ⏮ Prev ▶ Play ⏹ Stop ⏭ Next ☰ Menu │ ← 5 virtual buttons └────────────────────────────────────────────┘
+| Section                  | Description                          |
+|--------------------------|--------------------------------------|
+| **Full-width Banner**    | `logo.bmp` loaded from SD            |
+| **Playback Progress Bar**| Green bar shows file progress        |
+| **Scrollable File List** | Touch to select/play                 |
+| **Control Buttons**      | ⏮ Prev ▶ Play ⏹ Stop ⏭ Next ☰ Menu   |
 
 ---
 
