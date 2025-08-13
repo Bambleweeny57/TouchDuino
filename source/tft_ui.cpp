@@ -1,6 +1,6 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_ILI9341.h>
-#include <XPT2046_Touchscreen.h>
+#include <Adafruit_FT6206.h>
 #include <SPI.h>
 #include <SD.h>
 #include "tft_ui.h"
@@ -9,10 +9,9 @@
 #define TFT_CS   10
 #define TFT_DC    9
 #define TFT_RST   7
-#define TOUCH_CS  8
 
 Adafruit_ILI9341 tft(TFT_CS, TFT_DC, TFT_RST);
-XPT2046_Touchscreen touch(TOUCH_CS);
+Adafruit_FT6206 touch;
 
 String fileList[MAX_FILES];
 int fileCount = 0;
@@ -20,8 +19,10 @@ int selectedFile = 0;
 
 void initUI() {
   tft.begin();
-  touch.begin();
-  touch.setRotation(1);
+  if (!touch.begin(40)) {
+    Serial.println("Capacitive touch not found");
+    while (1);
+  }
   tft.setRotation(1);
   tft.fillScreen(ILI9341_BLACK);
   drawBanner();
@@ -98,7 +99,7 @@ void drawButtons() {
 TouchAction detectTouchAction() {
   if (!touch.touched()) return TOUCH_NONE;
   TS_Point p = touch.getPoint();
-  int x = map(p.x, 200, 3800, 0, SCREEN_WIDTH);
+  int x = p.x; // FT6206 gives screen coordinates directly
 
   if (x < 64) return TOUCH_PREV;
   if (x < 128) return TOUCH_PLAY;
