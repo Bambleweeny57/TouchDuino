@@ -3,14 +3,11 @@
 
 #include <Arduino.h>
 #include <SD.h>
+#include "tft_ui.h"
 
-void playTapeFile(File file, String name);
-void playTAP(File file);
-void playTZX(File file);
-void playCDT(File file);
-void playCAS(File file);
-void sendByte(byte b);
-void sendBit(bool bit);
+bool isPlaying();
+void playTapeFile(File &tapeFile, const String &filename);
 void stopPlayback();
+void handleTouchAction(TouchAction action);
 
 #endif
