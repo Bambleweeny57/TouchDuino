@@ -34,7 +34,7 @@ enum TouchAction {
 // UI functions
 void initUI();
 void drawBanner();
-void drawProgressBar(float progress);
+void drawProgressBar(uint32_t current, uint32_t total);
 void drawFileList();
 void drawButtons();
 TouchAction detectTouchAction();
