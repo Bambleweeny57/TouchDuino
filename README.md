@@ -1,6 +1,6 @@
 # 🎮 MaxDuino Touchscreen UI
 
-A modern touchscreen interface for MaxDuino running on Arduino Mega, replacing physical buttons with a full-color TFT and touch input. Includes a scrollable file browser, playback progress bar, and customizable banner image.
+A modern touchscreen interface for MaxDuino running on Arduino Mega, replacing physical buttons with a full-colour TFT and touch input. Includes a scrollable file browser, playback progress bar, and customizable banner image.
 
 ---
 
@@ -23,6 +23,7 @@ A modern touchscreen interface for MaxDuino running on Arduino Mega, replacing p
 
 ## 🖥️ UI Layout
 
+─────────────────┐ │ Full-width Banner │ ← logo.bmp loaded from SD ├────────────────────────────────────────────┤ │ Playback Progress Bar │ ← Green bar shows file progress ├────────────────────────────────────────────┤ │ Scrollable File List │ ← Touch to select/play ├────────────────────────────────────────────┤ │ ⏮ Prev ▶ Play ⏹ Stop ⏭ Next ☰ Menu │ ← 5 virtual buttons └────────────────────────────────────────────┘
 
 ---
 
@@ -40,6 +41,7 @@ A modern touchscreen interface for MaxDuino running on Arduino Mega, replacing p
 
 ## 📁 SD Card Structure
 
+/SDCARD ├── logo.bmp ← Banner image (24-bit BMP, 320×64 recommended) ├── game1.tap ├── demo.tzx ├── loader.cdt ├── ...
 
 ---
 
