@@ -29,3 +29,14 @@ void playCDT(File &file) {
         }
     }
 }
+
+void sendBit(bool bit) {
+#if ENABLE_CALIBRATION
+    digitalWrite(DATA_PIN, bit ? HIGH : LOW);
+    delayMicroseconds(PULSE_WIDTH_US);
+    digitalWrite(DATA_PIN, LOW);
+    delayMicroseconds(INTER_BIT_DELAY_US);
+#else
+    // CDT-specific timing
+#endif
+}
