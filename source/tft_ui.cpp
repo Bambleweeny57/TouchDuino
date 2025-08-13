@@ -74,6 +74,11 @@ void drawProgressBar(uint32_t current, uint32_t total) {
     tft.fillRect(x, y, barWidth, barHeight, TFT_DARKGREY);
     // Draw filled portion
     tft.fillRect(x, y, filled, barHeight, TFT_GREEN);
+
+    // Draw percentage text
+    tft.setTextColor(TFT_WHITE, TFT_BLACK); // Adjust colors as needed
+    tft.setCursor(x + barWidth + 10, y);    // Position next to the bar
+    tft.printf("%3d%%", percent)
 }
 
 void drawFileList() {
