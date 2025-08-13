@@ -4,13 +4,13 @@
 #include <Arduino.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_ILI9341.h>
-#include <XPT2046_Touchscreen.h>
+#include <Adafruit_FT6206.h>
 #include <SPI.h>
 #include <SD.h>
 
 // TFT and Touchscreen objects
 extern Adafruit_ILI9341 tft;
-extern XPT2046_Touchscreen touch;
+extern Adafruit_FT6206 touch;
 
 // UI constants
 #define SCREEN_WIDTH 320
@@ -41,6 +41,6 @@ TouchAction detectTouchAction();
 void scrollFileList(int direction);
 void listTapeFiles();                      
 void listTapeFilesRecursive(File dir, String pathPrefix = "");
-String loadFileFromList(); // ✅ Reintroduced for modular file access
+String loadFileFromList();
 
 #endif
