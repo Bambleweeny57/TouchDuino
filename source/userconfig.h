@@ -10,7 +10,7 @@
 // Audio output pin
 #define AUDIO_PIN 9
 
-// Touchscreen CS pin
-#define CS_PIN 8
+// Capacitive touch uses I2C — no CS pin needed
+// #define CS_PIN 8
 
 #endif
