@@ -1,4 +1,5 @@
 #include "cas_player.h"
+#include "tft_ui.h"
 #include "signal_generator.h"
 
 void playCAS(File &file) {
