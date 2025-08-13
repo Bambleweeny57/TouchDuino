@@ -9,8 +9,15 @@ void playTZX(File &file) {
             case 0x10: { // Standard Speed Data Block
                 uint16_t pauseAfter = file.read() | (file.read() << 8);
                 uint16_t dataLen = file.read() | (file.read() << 8);
+                uint32_t currentPos = file.position();
+                uint32_t totalSize = file.size();
+                drawProgressBar(currentPos, totalSize);
+
                 for (uint16_t i = 0; i < dataLen; i++) {
                     uint8_t byte = file.read();
+                    uint32_t currentPos = file.position();
+                    uint32_t totalSize = file.size();
+                    drawProgressBar(currentPos, totalSize);
                     for (int b = 7; b >= 0; b--) {
                         sendBit((byte >> b) & 1);
                     }
@@ -24,6 +31,9 @@ void playTZX(File &file) {
                 uint32_t dataLen = file.read() | (file.read() << 8) | (file.read() << 16);
                 for (uint32_t i = 0; i < dataLen; i++) {
                     uint8_t byte = file.read();
+                    uint32_t currentPos = file.position();
+                    uint32_t totalSize = file.size();
+                    drawProgressBar(currentPos, totalSize);
                     for (int b = 7; b >= 0; b--) {
                         sendBit((byte >> b) & 1);
                     }
@@ -33,6 +43,9 @@ void playTZX(File &file) {
 
             case 0x20: { // Pause (silence) or Stop the Tape
                 uint16_t pauseMs = file.read() | (file.read() << 8);
+                uint32_t currentPos = file.position();
+                uint32_t totalSize = file.size();
+                drawProgressBar(currentPos, totalSize);
                 delay(pauseMs);
                 break;
             }
