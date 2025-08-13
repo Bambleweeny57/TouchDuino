@@ -1,6 +1,6 @@
 #include "maxduino.h"
 #include "file_browser.h"
-#include "userconfig.h"
+#include "format_dispatcher.h"
 
 bool playbackActive = false;
 
@@ -10,19 +10,12 @@ bool isPlaying() {
 
 void playTapeFile(File &tapeFile, const String &filename) {
   playbackActive = true;
-  // Actual playback logic here (e.g., bit-banging or DAC output)
-  // Placeholder:
-  while (tapeFile.available()) {
-    byte b = tapeFile.read();
-    // Output to AUDIO_PIN
-    delayMicroseconds(100); // Simulate timing
-  }
+  dispatchPlayback(tapeFile, filename);
   playbackActive = false;
 }
 
 void stopPlayback() {
   playbackActive = false;
-  // Additional cleanup if needed
 }
 
 void handleTouchAction(TouchAction action) {
