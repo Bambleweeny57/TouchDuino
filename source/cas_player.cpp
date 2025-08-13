@@ -3,11 +3,7 @@
 
 void playCAS(File &file) {
     while (file.available()) {
-        uint8_t byte = file.read();
-        uint32_t currentPos = file.position();
-        uint32_t totalSize = file.size();
-        drawProgressBar(currentPos, totalSize);
-        
+        uint8_t byte = file.read();        
         // MSX CAS uses 1 start bit, 8 data bits, 1 stop bit
         sendBit(0); // Start bit
         for (int b = 0; b < 8; b++) {
@@ -19,6 +15,10 @@ void playCAS(File &file) {
     }
 
     delay(1000); // Final pause
+
+    uint32_t currentPos = file.position();
+    uint32_t totalSize = file.size();
+    drawProgressBar(currentPos, totalSize);
 }
 
 void sendBit(bool bit) {
