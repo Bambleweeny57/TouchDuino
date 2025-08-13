@@ -1,5 +1,6 @@
 #include "tap_player.h"
 #include "signal_generator.h"
+#include "tft_ui.h"
 
 void playTAP(File &file) {
     while (file.available()) {
