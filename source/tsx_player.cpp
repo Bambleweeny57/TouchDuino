@@ -1,10 +1,34 @@
-// tsx_player.cpp
 #include "tsx_player.h"
+#include "signal_generator.h"
 
 void playTSX(File &file) {
-  // TSX decoding logic
-  while (file.available()) {
-    byte b = file.read();
-    delayMicroseconds(100);
-  }
+    while (file.available()) {
+        uint8_t blockID = file.read();
+
+        switch (blockID) {
+            case 0x10: { // Standard Speed Data Block
+                uint16_t pauseAfter = file.read() | (file.read() << 8);
+                uint16_t dataLen = file.read() | (file.read() << 8);
+                for (uint16_t i = 0; i < dataLen; i++) {
+                    uint8_t byte = file.read();
+                    for (int b = 7; b >= 0; b--) {
+                        sendBit((byte >> b) & 1);
+                    }
+                }
+                delay(pauseAfter);
+                break;
+            }
+
+            case 0x20: { // Pause block
+                uint16_t pauseMs = file.read() | (file.read() << 8);
+                delay(pauseMs);
+                break;
+            }
+
+            default:
+                // Skip unknown or metadata-only blocks
+                break;
+        }
+    }
 }
+
