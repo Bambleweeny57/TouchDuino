@@ -1,5 +1,6 @@
 #include "tsx_player.h"
 #include "signal_generator.h"
+#include "tft_ui.h"
 
 void playTSX(File &file) {
     while (file.available()) {
