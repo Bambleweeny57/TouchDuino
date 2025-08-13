@@ -46,13 +46,14 @@ A modern touchscreen interface for MaxDuino running on Arduino Mega, replacing p
 
 ### 📁 SD Card Structure
 
-| Path         | Description                                      |
-|--------------|--------------------------------------------------|
-| `/logo.bmp`  | Banner image (24-bit BMP, 320×64 recommended)    |
-| `/game1.tap` | Tape file for playback                           |
-| `/demo.tzx`  | Another supported tape format                    |
-| `/loader.cdt`| CDT format file                                  |
-| `/...`       | Add more `.tap`, `.tzx`, `.cdt`, `.cas` files    |
+| Path             | Description                                      |
+|------------------|--------------------------------------------------|
+| `/logo.bmp`      | Banner image (24-bit BMP, 320×64 recommended)    |
+| `/game1.tap`     | Tape file for playback                           |
+| `/demo.tzx`      | Another supported tape format                    |
+| `/loader.cdt`    | CDT format file                                  |
+| `/games/game2.tap` | File inside subfolder (if folder support enabled) |
+| `/demos/demo2.tzx` | Another file in subfolder                      |
 
 ---
 
