@@ -9,6 +9,7 @@
 #define TFT_CS   10
 #define TFT_DC    9
 #define TFT_RST   7
+#define SD_CS     4  // SD card chip select on Adafruit shield
 
 Adafruit_ILI9341 tft(TFT_CS, TFT_DC, TFT_RST);
 Adafruit_FT6206 touch;
@@ -18,13 +19,26 @@ int fileCount = 0;
 int selectedFile = 0;
 
 void initUI() {
+  SPI.begin();
+
+  // Initialize TFT
   tft.begin();
+  tft.setRotation(1);
+  tft.fillScreen(ILI9341_BLACK);
+
+  // Initialize capacitive touch
   if (!touch.begin(40)) {
     Serial.println("Capacitive touch not found");
     while (1);
   }
-  tft.setRotation(1);
-  tft.fillScreen(ILI9341_BLACK);
+
+  // Initialize SD card
+  pinMode(SD_CS, OUTPUT);
+  digitalWrite(TFT_CS, HIGH); // Disable TFT during SD init
+  if (!SD.begin(SD_CS)) {
+    Serial.println("SD card failed");
+  }
+
   drawBanner();
   drawButtons();
 }
@@ -99,7 +113,7 @@ void drawButtons() {
 TouchAction detectTouchAction() {
   if (!touch.touched()) return TOUCH_NONE;
   TS_Point p = touch.getPoint();
-  int x = p.x; // FT6206 gives screen coordinates directly
+  int x = p.x;
 
   if (x < 64) return TOUCH_PREV;
   if (x < 128) return TOUCH_PLAY;
